@@ -1,7 +1,4 @@
 import axios from "axios";
-import Vue from "vue";
-
-Vue.use(axios);
 
 export function request(config) {
   // 1.创建axios的实例
