@@ -5,7 +5,12 @@
         <div>购物街</div>
       </template>
     </nav-bar>
-    <scroll class="content">
+    <scroll class="content"
+            ref="scroll"
+            :probe-type="3"
+            @scroll="contentScroll"
+            :pull-up-load="true"
+            @pullingUp="loadMore">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
@@ -14,6 +19,7 @@
                    @tabClick="tabClick"></tab-control>
       <goods-list :goods="goods[currentType].list"></goods-list>
     </scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 
@@ -26,6 +32,7 @@ import GoodsList from "@/components/content/goods/GoodsList";
 import NavBar from "@/components/common/navbar/NavBar";
 import TabControl from "@/components/content/tabControl/TabControl";
 import Scroll from "@/components/common/scroll/Scroll";
+import BackTop from "@/components/content/backtop/BackTop";
 
 import {getHomeMultidata, getHomeGoods} from "@/network/home";
 
@@ -40,7 +47,8 @@ export default {
         'new': {page: 0, list: []},
         'sell': {page: 0, list: []},
       },
-      currentType: 'pop'
+      currentType: 'pop',
+      isShowBackTop: false
     }
   },
   components: {
@@ -50,7 +58,8 @@ export default {
     GoodsList,
     NavBar,
     TabControl,
-    Scroll
+    Scroll,
+    BackTop
   },
   created() {
     this.getHomeMultidata();
@@ -76,6 +85,16 @@ export default {
           break;
       }
     },
+    backClick() {
+      this.$refs.scroll.scrollTo(0, 0);
+    },
+    contentScroll(position) {
+      this.isShowBackTop = (-position.y) > 800
+    },
+    loadMore() {
+      this.getHomeGoods(this.currentType);
+      this.$refs.scroll.scroll.refresh();
+    },
     /**
      * 网络请求
      */
@@ -90,7 +109,8 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
-      })
+        this.$refs.scroll.finishPullUp();
+      });
     }
   }
 }
