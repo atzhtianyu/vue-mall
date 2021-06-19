@@ -17,7 +17,7 @@
       <tab-control class="tab-control"
                    :titles="['流行','新款','精选']"
                    @tabClick="tabClick"></tab-control>
-      <goods-list :goods="goods[currentType].list"></goods-list>
+      <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
@@ -49,6 +49,11 @@ export default {
       },
       currentType: 'pop',
       isShowBackTop: false
+    }
+  },
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
     }
   },
   components: {
