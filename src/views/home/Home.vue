@@ -8,12 +8,13 @@
     <scroll class="content"
             ref="scroll"
             :probe-type="3"
-            @scroll="contentScroll">
+            @scroll="contentScroll"
+            :pull-up-load="true"
+            @pullingUp="loadMore">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
-      <tab-control class="tab-control"
-                   :titles="['流行','新款','精选']"
+      <tab-control :titles="['流行','新款','精选']"
                    @tabClick="tabClick"></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
@@ -33,6 +34,7 @@ import Scroll from "@/components/common/scroll/Scroll";
 import BackTop from "@/components/content/backtop/BackTop";
 
 import {getHomeMultidata, getHomeGoods} from "@/network/home";
+import {debounce} from "@/common/utils.js";
 
 export default {
   name: "Home",
@@ -78,7 +80,7 @@ export default {
     // 使用事件总线 bus 解决 BScroll 的小 bug
     // 监听item中图片加载完成
 
-    const refresh = this.debounce(this.$refs.scroll.refresh, 500);
+    const refresh = debounce(this.$refs.scroll.refresh, 100);
     this.$bus.$on('itemImageLoad', () => {
       refresh();
     })
@@ -88,15 +90,6 @@ export default {
     /**
      * 事件监听
      */
-    debounce(func, delay) {
-      let timer = null;
-      return function(...arg) {
-        if(timer) clearTimeout(timer);
-        timer = setTimeout(() => {
-          func.apply(this, arg);
-        }, delay);
-      }
-    },
     tabClick(index) {
       switch (index) {
         case 0:
@@ -116,6 +109,9 @@ export default {
     contentScroll(position) {
       this.isShowBackTop = (-position.y) > 800
     },
+    loadMore() {
+      this.getHomeGoods(this.currentType);
+    },
     /**
      * 网络请求
      */
@@ -130,6 +126,8 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+        // 完成上拉加载更多
+        this.$refs.scroll.finishPullUp();
       });
     }
   }
@@ -153,11 +151,11 @@ export default {
   color: #fff;
 }
 
-.tab-control {
+/* .tab-control {
   position: sticky;
   top: 44px;
   z-index: 9;
-}
+} */
 
 .content {
   overflow: hidden;
