@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item">
-    <img :src="goodsItem.show.img" alt="">
+    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
     <div class="goods-info">
       <p>{{ goodsItem.title }}</p>
       <span class="price">{{ goodsItem.price }}</span>
@@ -19,6 +19,12 @@ export default {
         return {}
       }
     }
+  },
+  methods: {
+    // 使用事件总线 bus 解决 BScroll 的小 bug
+    // imageLoad() {
+    //   this.$bus.$emit('itemImageLoad')
+    // },
   }
 }
 </script>

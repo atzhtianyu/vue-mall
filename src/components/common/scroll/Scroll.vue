@@ -7,11 +7,13 @@
 </template>
 
 <script>
-import BScroll from 'better-scroll';
+import BScroll from '@better-scroll/core';
 import ObserveDOM from '@better-scroll/observe-dom';
+import ObserveImage from '@better-scroll/observe-image';
 import PullUp from '@better-scroll/pull-up'
 
 BScroll.use(ObserveDOM);
+BScroll.use(ObserveImage);
 BScroll.use(PullUp);
 
 export default {
@@ -20,10 +22,6 @@ export default {
     probeType: {
       type: Number,
       default: 0
-    },
-    pullUpLoad: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -36,6 +34,7 @@ export default {
     this.scroll = new BScroll(this.$refs.wrapper, {
       click: true,
       observeDOM: true,
+      observeImage: true,
       probeType: this.probeType,
       pullUpLoad: this.pullUpLoad,
       // updated: true
@@ -46,20 +45,17 @@ export default {
       // console.log(position);
       this.$emit('scroll', position);
     });
-
-    // 3.监听上拉事件
-    this.scroll.on('pullingUp', () => {
-      // console.log('上拉加载更多');
-      this.$emit('pullingUp');
-    })
   },
   methods: {
     scrollTo(x, y, time = 300) {
-      this.scroll.scrollTo(x, y, time);
+      this.scroll && this.scroll.scrollTo(x, y, time);
+    },
+    refresh() {
+      this.scroll && this.scroll.refresh();
     },
     finishPullUp() {
-      this.scroll.finishPullUp();
-    }
+      this.scroll && this.scroll.finishPullUp();
+    },
   }
 }
 </script>

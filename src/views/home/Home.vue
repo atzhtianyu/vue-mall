@@ -8,9 +8,7 @@
     <scroll class="content"
             ref="scroll"
             :probe-type="3"
-            @scroll="contentScroll"
-            :pull-up-load="true"
-            @pullingUp="loadMore">
+            @scroll="contentScroll">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
@@ -67,11 +65,22 @@ export default {
     BackTop
   },
   created() {
+    // 1.请求多个数据
     this.getHomeMultidata();
 
+    // 2.请求商品数据
     this.getHomeGoods('pop');
     this.getHomeGoods('new');
     this.getHomeGoods('sell');
+  },
+  mounted() {
+
+    // 使用事件总线 bus 解决 BScroll 的小 bug
+    // 监听item中图片加载完成
+    // this.$bus.$on('itemImageLoad', () => {
+    //   this.$refs.scroll.refresh();
+    // })
+
   },
   methods: {
     /**
@@ -96,10 +105,6 @@ export default {
     contentScroll(position) {
       this.isShowBackTop = (-position.y) > 800
     },
-    loadMore() {
-      this.getHomeGoods(this.currentType);
-      this.$refs.scroll.scroll.refresh();
-    },
     /**
      * 网络请求
      */
@@ -114,7 +119,6 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
-        this.$refs.scroll.finishPullUp();
       });
     }
   }
