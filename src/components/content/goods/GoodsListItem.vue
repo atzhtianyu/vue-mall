@@ -22,9 +22,9 @@ export default {
   },
   methods: {
     // 使用事件总线 bus 解决 BScroll 的小 bug
-    // imageLoad() {
-    //   this.$bus.$emit('itemImageLoad')
-    // },
+    imageLoad() {
+      this.$bus.$emit('itemImageLoad');
+    },
   }
 }
 </script>

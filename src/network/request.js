@@ -5,7 +5,7 @@ export function request(config) {
   const instance = axios.create({
     // 这里的baseURL是老师提供的，具体请看下方视频中的第一条评论
     // https://www.bilibili.com/video/BV15741177Eh
-    baseURL: '******',
+    baseURL: "http://152.136.185.210:7878/api/m5",
     timeout: 5000
   });
 

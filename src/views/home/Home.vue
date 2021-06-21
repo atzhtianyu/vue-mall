@@ -77,15 +77,26 @@ export default {
 
     // 使用事件总线 bus 解决 BScroll 的小 bug
     // 监听item中图片加载完成
-    // this.$bus.$on('itemImageLoad', () => {
-    //   this.$refs.scroll.refresh();
-    // })
+
+    const refresh = this.debounce(this.$refs.scroll.refresh, 500);
+    this.$bus.$on('itemImageLoad', () => {
+      refresh();
+    })
 
   },
   methods: {
     /**
      * 事件监听
      */
+    debounce(func, delay) {
+      let timer = null;
+      return function(...arg) {
+        if(timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+          func.apply(this, arg);
+        }, delay);
+      }
+    },
     tabClick(index) {
       switch (index) {
         case 0:
