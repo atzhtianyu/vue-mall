@@ -5,17 +5,24 @@
         <div>购物街</div>
       </template>
     </nav-bar>
+    <!--如果直接在 scroll 里边直接使用 class 设置 tabControl 的样式为fixed，则 tabControl 会直接脱离文档流-->
+    <tab-control :titles="['流行','新款','精选']"
+                 @tabClick="tabClick"
+                 ref="tabControl1"
+                 v-show="isTabFixed"
+                 class="tab-control"></tab-control>
     <scroll class="content"
             ref="scroll"
             :probe-type="3"
             @scroll="contentScroll"
             :pull-up-load="true"
             @pullingUp="loadMore">
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
       <tab-control :titles="['流行','新款','精选']"
-                   @tabClick="tabClick"></tab-control>
+                   @tabClick="tabClick"
+                   ref="tabControl2"></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
@@ -34,7 +41,7 @@ import Scroll from "@/components/common/scroll/Scroll";
 import BackTop from "@/components/content/backtop/BackTop";
 
 import {getHomeMultidata, getHomeGoods} from "@/network/home";
-import {debounce} from "@/common/utils.js";
+import {debounce} from "@/common/utils";
 
 export default {
   name: "Home",
@@ -48,13 +55,16 @@ export default {
         'sell': {page: 0, list: []},
       },
       currentType: 'pop',
-      isShowBackTop: false
+      index: 0,
+      isShowBackTop: false,
+      tabOffsetTop: 0,
+      isTabFixed: false
     }
   },
   computed: {
     showGoods() {
       return this.goods[this.currentType].list;
-    }
+    },
   },
   components: {
     HomeSwiper,
@@ -78,12 +88,12 @@ export default {
   mounted() {
 
     // 使用事件总线 bus 解决 BScroll 的小 bug
-    // 监听item中图片加载完成
+    // 1.监听item中图片加载完成
 
     const refresh = debounce(this.$refs.scroll.refresh, 100);
     this.$bus.$on('itemImageLoad', () => {
       refresh();
-    })
+    });
 
   },
   methods: {
@@ -102,15 +112,24 @@ export default {
           this.currentType = 'sell';
           break;
       }
+      // 同步tab
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
     },
     backClick() {
       this.$refs.scroll.scrollTo(0, 0);
     },
     contentScroll(position) {
-      this.isShowBackTop = (-position.y) > 800
+      // 1.判断BackTop是否显示
+      this.isShowBackTop = (-position.y) > 800;
+      // 2.决定tabControl是否吸顶
+      this.isTabFixed = (-position.y) > this.tabOffsetTop;
     },
     loadMore() {
       this.getHomeGoods(this.currentType);
+    },
+    swiperImageLoad() {
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
     },
     /**
      * 网络请求
@@ -149,6 +168,11 @@ export default {
   z-index: 1;
   background-color: var(--color-tint);
   color: #fff;
+}
+
+.tab-control {
+  position: relative;
+  z-index: 9;
 }
 
 /* .tab-control {
