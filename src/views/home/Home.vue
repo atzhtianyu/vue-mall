@@ -58,7 +58,8 @@ export default {
       index: 0,
       isShowBackTop: false,
       tabOffsetTop: 0,
-      isTabFixed: false
+      isTabFixed: false,
+      saveY: 0
     }
   },
   computed: {
@@ -94,7 +95,18 @@ export default {
     this.$bus.$on('itemImageLoad', () => {
       refresh();
     });
-
+  },
+  destroyed() {
+    console.log('home destroyed');
+  },
+  activated() {
+    // 这里的时间不能设置为0，否则会自动返回顶部
+    this.$refs.scroll.scrollTo(0, this.saveY, 10);
+    // 最好做一个refresh
+    this.$refs.scroll.refresh();
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.getScrollY();
   },
   methods: {
     /**
