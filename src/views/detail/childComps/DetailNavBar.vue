@@ -41,7 +41,7 @@ export default {
 <style scoped>
 
 .title {
-  margin-top: 4px;
+  margin-top: 2px;
   display: flex;
   font-size: 13px;
 }
@@ -55,7 +55,7 @@ export default {
 }
 
 .back img {
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 </style>

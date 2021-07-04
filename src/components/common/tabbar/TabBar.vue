@@ -23,7 +23,7 @@ export default {
 
   box-shadow: 0 -1px 1px rgba(100, 100, 100, .15);
 
-  z-index: 10;
+  z-index: 9;
 
 }
 
