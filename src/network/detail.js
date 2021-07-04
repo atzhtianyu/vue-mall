@@ -33,3 +33,14 @@ export class Shop {
   }
 }
 
+export class GoodsPram {
+  constructor(info, rule) {
+    this.image = info.images ? info.images[0] : '';
+    this.infoKey = info.key;
+    this.infos = info.set;
+    this.ruleKey = rule.key;
+    this.ruleDesc = rule.disclaimer;
+    this.sizes = rule.tables;
+  }
+}
+
