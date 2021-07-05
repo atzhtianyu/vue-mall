@@ -7,6 +7,7 @@
       <detail-shop-info :shop="shop"></detail-shop-info>
       <detail-goods-info :detail-info="detailInfo"></detail-goods-info>
       <detail-param-info :param-info="paramInfo"></detail-param-info>
+      <detail-comment-info :comment-info="commentInfo"></detail-comment-info>
     </scroll>
   </div>
 </template>
@@ -18,6 +19,7 @@ import DetailBaseInfo from "@/views/detail/childComps/DetailBaseInfo";
 import DetailShopInfo from "@/views/detail/childComps/DetailShopInfo";
 import DetailGoodsInfo from "@/views/detail/childComps/DetailGoodsInfo";
 import DetailParamInfo from "@/views/detail/childComps/DetailParamInfo";
+import DetailCommentInfo from "@/views/detail/childComps/DetailCommentInfo";
 
 import Scroll from "@/components/common/scroll/Scroll";
 
@@ -32,6 +34,7 @@ export default {
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamInfo,
+    DetailCommentInfo,
     Scroll
   },
   data() {
