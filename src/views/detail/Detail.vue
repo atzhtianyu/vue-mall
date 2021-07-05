@@ -1,6 +1,6 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav"></detail-nav-bar>
+    <detail-nav-bar></detail-nav-bar>
     <scroll class="content">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
@@ -41,12 +41,13 @@ export default {
       goods: {},
       shop: {},
       detailInfo: {},
-      paramInfo: {}
+      paramInfo: {},
+      commentInfo: {}
     }
   },
   created() {
     // 1.保存传入的iid
-    this.iid = this.$route.params.iid;
+    this.iid = this.$route.query.iid;
     // 2.根据iid请求详情数据
     getDetail(this.iid).then(res => {
       console.log(res);
@@ -61,6 +62,10 @@ export default {
       this.detailInfo = data.detailInfo;
       // 5.获取参数信息
       this.paramInfo = new GoodsPram(data.itemParams.info, data.itemParams.rule);
+      // 6.获取评论信息
+      if (data.rate.cRate !== 0) {
+        this.commentInfo = data.rate.list[0];
+      }
     });
   }
 }
@@ -75,13 +80,8 @@ export default {
   background-color: #fff;
 }
 
-.detail-nav {
-  position: relative;
-  z-index: 9;
-  background-color: #fff;
-}
-
 .content {
+  background-color: #fff;
   height: calc(100% - 44px);
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="detail-nav">
     <nav-bar>
       <div slot="left" class="back" @click="backClick">
         <img src="~assets/img/common/back.svg" alt="">
@@ -8,7 +8,8 @@
         <div v-for="(item, index) in titles" :key="index"
              class="title-item"
              :class="{active: index === currentIndex}"
-             @click="itemClick(index)">{{item}}</div>
+             @click="itemClick(index)">{{ item }}
+        </div>
       </div>
     </nav-bar>
   </div>
@@ -16,6 +17,7 @@
 
 <script>
 import NavBar from "@/components/common/navbar/NavBar";
+
 export default {
   name: "DetailNavBar",
   components: {
@@ -39,6 +41,12 @@ export default {
 </script>
 
 <style scoped>
+
+.detail-nav {
+  position: relative;
+  z-index: 9;
+  background-color: #fff;
+}
 
 .title {
   margin-top: 2px;
