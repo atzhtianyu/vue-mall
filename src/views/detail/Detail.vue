@@ -1,13 +1,14 @@
 <template>
   <div id="detail">
     <detail-nav-bar></detail-nav-bar>
-    <scroll class="content">
+    <scroll class="content" ref="scroll">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
       <detail-goods-info :detail-info="detailInfo"></detail-goods-info>
       <detail-param-info :param-info="paramInfo"></detail-param-info>
       <detail-comment-info :comment-info="commentInfo"></detail-comment-info>
+      <detail-recommend-info :recommend-list="recommendList"></detail-recommend-info>
     </scroll>
   </div>
 </template>
@@ -20,10 +21,12 @@ import DetailShopInfo from "@/views/detail/childComps/DetailShopInfo";
 import DetailGoodsInfo from "@/views/detail/childComps/DetailGoodsInfo";
 import DetailParamInfo from "@/views/detail/childComps/DetailParamInfo";
 import DetailCommentInfo from "@/views/detail/childComps/DetailCommentInfo";
+import DetailRecommendInfo from "@/views/detail/childComps/DetailRecommendInfo";
 
 import Scroll from "@/components/common/scroll/Scroll";
 
-import {getDetail, Goods, Shop, GoodsPram} from "@/network/detail";
+import {getDetail, getRecommend, Goods, Shop, GoodsPram} from "@/network/detail";
+import {itemListenerMixin} from "@/common/mixin";
 
 export default {
   name: "Detail",
@@ -35,8 +38,10 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     DetailCommentInfo,
+    DetailRecommendInfo,
     Scroll
   },
+  mixins: [itemListenerMixin],
   data() {
     return {
       iid: null,
@@ -45,7 +50,8 @@ export default {
       shop: {},
       detailInfo: {},
       paramInfo: {},
-      commentInfo: {}
+      commentInfo: {},
+      recommendList: []
     }
   },
   created() {
@@ -70,6 +76,15 @@ export default {
         this.commentInfo = data.rate.list[0];
       }
     });
+    // 3. 请求详情数据
+    getRecommend().then(res => {
+      this.recommendList = res.data.list;
+    })
+  },
+  mounted() {
+  },
+  destroyed() {
+    this.$bus.$off('itemImageLoad', this.itemImageListener);
   }
 }
 </script>

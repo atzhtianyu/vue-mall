@@ -89,7 +89,7 @@ export default {
   color: var(--color-high-text);
 }
 
-.info-img {
+.info-img img {
   width: 100%;
 }
 

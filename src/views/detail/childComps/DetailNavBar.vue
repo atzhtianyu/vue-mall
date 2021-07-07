@@ -45,7 +45,7 @@ export default {
 .detail-nav {
   position: relative;
   z-index: 9;
-  background-color: #fff;
+  background-color: white;
 }
 
 .title {

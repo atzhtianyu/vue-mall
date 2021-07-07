@@ -2,10 +2,16 @@ import {request} from "@/network/request";
 
 export function getDetail(iid) {
   return request({
-    url: 'detail',
+    url: '/detail',
     params: {
       iid: iid
     }
+  })
+}
+
+export function getRecommend() {
+  return request({
+    url: '/recommend'
   })
 }
 
