@@ -4,7 +4,7 @@
       <div class="header-title">用户评价</div>
       <div class="header-more">
         更多
-        <i class="arrow-right"></i>
+        <font-awesome-icon :icon="['fas', 'angle-right']"/>
       </div>
     </div>
     <div class="info-user">
