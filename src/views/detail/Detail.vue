@@ -13,6 +13,7 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo"></detail-comment-info>
       <detail-recommend-info ref="recommend" :recommend-list="recommendList"></detail-recommend-info>
     </scroll>
+    <detail-bottom-bar></detail-bottom-bar>
   </div>
 </template>
 
@@ -25,6 +26,7 @@ import DetailGoodsInfo from "@/views/detail/childComps/DetailGoodsInfo";
 import DetailParamInfo from "@/views/detail/childComps/DetailParamInfo";
 import DetailCommentInfo from "@/views/detail/childComps/DetailCommentInfo";
 import DetailRecommendInfo from "@/views/detail/childComps/DetailRecommendInfo";
+import DetailBottomBar from "@/views/detail/childComps/DetailBottomBar";
 
 import Scroll from "@/components/common/scroll/Scroll";
 
@@ -43,6 +45,7 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     DetailRecommendInfo,
+    DetailBottomBar,
     Scroll
   },
   mixins: [itemListenerMixin],
@@ -192,7 +195,7 @@ export default {
   top: 44px;
   overflow: hidden;
   background-color: #fff;
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 49px);
 }
 
 </style>
