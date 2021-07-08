@@ -13,6 +13,7 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo"></detail-comment-info>
       <detail-recommend-info ref="recommend" :recommend-list="recommendList"></detail-recommend-info>
     </scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
     <detail-bottom-bar></detail-bottom-bar>
   </div>
 </template>
@@ -31,8 +32,9 @@ import DetailBottomBar from "@/views/detail/childComps/DetailBottomBar";
 import Scroll from "@/components/common/scroll/Scroll";
 
 import {getDetail, getRecommend, Goods, Shop, GoodsPram} from "@/network/detail";
-import {itemListenerMixin} from "@/common/mixin";
+import {backTopMixin, itemListenerMixin} from "@/common/mixin";
 import {debounce} from "@/common/utils";
+import {BACKTOP_DISTANCE} from "@/common/const";
 
 export default {
   name: "Detail",
@@ -48,7 +50,7 @@ export default {
     DetailBottomBar,
     Scroll
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data() {
     return {
       iid: null,
@@ -175,6 +177,9 @@ export default {
           this.$refs.navbar.currentIndex = this.currentIndex;
         }
       }
+
+      // 判断BackTop是否显示
+      this.isShowBackTop = (-position.y) > BACKTOP_DISTANCE;
     }
   }
 }

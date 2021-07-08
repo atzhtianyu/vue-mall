@@ -38,14 +38,14 @@ import GoodsList from "@/components/content/goods/GoodsList";
 import NavBar from "@/components/common/navbar/NavBar";
 import TabControl from "@/components/content/tabControl/TabControl";
 import Scroll from "@/components/common/scroll/Scroll";
-import BackTop from "@/components/content/backtop/BackTop";
 
 import {getHomeMultidata, getHomeGoods} from "@/network/home";
-import {itemListenerMixin} from "@/common/mixin";
+import {backTopMixin, itemListenerMixin} from "@/common/mixin";
+import {POP, SELL, NEW, BACKTOP_DISTANCE} from "@/common/const";
 
 export default {
   name: "Home",
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data() {
     return {
       banners: [],
@@ -57,7 +57,6 @@ export default {
       },
       currentType: 'pop',
       index: 0,
-      isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
       saveY: 0
@@ -76,16 +75,15 @@ export default {
     NavBar,
     TabControl,
     Scroll,
-    BackTop
   },
   created() {
     // 1.请求多个数据
     this.getHomeMultidata();
 
     // 2.请求商品数据
-    this.getHomeGoods('pop');
-    this.getHomeGoods('new');
-    this.getHomeGoods('sell');
+    this.getHomeGoods(POP);
+    this.getHomeGoods(NEW);
+    this.getHomeGoods(SELL);
   },
   mounted() {
   },
@@ -111,25 +109,22 @@ export default {
     tabClick(index) {
       switch (index) {
         case 0:
-          this.currentType = 'pop';
+          this.currentType = POP;
           break;
         case 1:
-          this.currentType = 'new';
+          this.currentType = NEW;
           break;
         case 2:
-          this.currentType = 'sell';
+          this.currentType = SELL;
           break;
       }
       // 同步tab
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
     },
-    backClick() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
     contentScroll(position) {
       // 1.判断BackTop是否显示
-      this.isShowBackTop = (-position.y) > 800;
+      this.isShowBackTop = (-position.y) > BACKTOP_DISTANCE;
       // 2.决定tabControl是否吸顶
       this.isTabFixed = (-position.y) > this.tabOffsetTop;
     },
