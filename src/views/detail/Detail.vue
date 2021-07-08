@@ -14,7 +14,7 @@
       <detail-recommend-info ref="recommend" :recommend-list="recommendList"></detail-recommend-info>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
-    <detail-bottom-bar></detail-bottom-bar>
+    <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
   </div>
 </template>
 
@@ -180,6 +180,18 @@ export default {
 
       // 判断BackTop是否显示
       this.isShowBackTop = (-position.y) > BACKTOP_DISTANCE;
+    },
+    addToCart() {
+      // 1.获取购物车需要的信息
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
+      // 2.将商品添加到购物车
+      // this.$store.commit('addCart', product);
+      this.$store.dispatch('addCart', product);
     }
   }
 }
