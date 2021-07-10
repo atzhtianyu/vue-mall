@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import mutations from "@/store/mutations";
 import actions from "@/store/actions";
+import getters from "@/store/getters";
 
 // 1.安装vuex
 Vue.use(Vuex);
@@ -15,7 +16,8 @@ const state = {
 const store = new Vuex.Store({
   state,
   mutations,
-  actions
+  actions,
+  getters
 });
 
 // 3.导出store

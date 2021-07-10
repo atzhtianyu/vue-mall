@@ -8,6 +8,8 @@ export default {
     if (good) {
       context.commit(ADD_COUNTER, good);
     } else {
+      payload.count = 1;
+      payload.checked = true;
       context.commit(ADD_TO_CART, payload);
     }
   }

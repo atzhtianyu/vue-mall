@@ -31,10 +31,9 @@ export default {
 
   // mutation中的每一个事件完成的事务尽量比较单一
   [ADD_COUNTER](state, payload) {
-    payload.counter++;
+    payload.count++;
   },
   [ADD_TO_CART](state, payload) {
-    payload.count = 1;
     state.cartList.push(payload);
   }
 }

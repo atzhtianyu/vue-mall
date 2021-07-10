@@ -14,6 +14,9 @@
       <detail-recommend-info ref="recommend" :recommend-list="recommendList"></detail-recommend-info>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
+    <transition name="fade">
+      <detail-cart-popup class="popup" v-show="isAddCart"></detail-cart-popup>
+    </transition>
     <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
   </div>
 </template>
@@ -28,6 +31,7 @@ import DetailParamInfo from "@/views/detail/childComps/DetailParamInfo";
 import DetailCommentInfo from "@/views/detail/childComps/DetailCommentInfo";
 import DetailRecommendInfo from "@/views/detail/childComps/DetailRecommendInfo";
 import DetailBottomBar from "@/views/detail/childComps/DetailBottomBar";
+import DetailCartPopup from "@/views/detail/childComps/DetailCartPopup";
 
 import Scroll from "@/components/common/scroll/Scroll";
 
@@ -48,6 +52,7 @@ export default {
     DetailCommentInfo,
     DetailRecommendInfo,
     DetailBottomBar,
+    DetailCartPopup,
     Scroll
   },
   mixins: [itemListenerMixin, backTopMixin],
@@ -63,7 +68,8 @@ export default {
       recommendList: [],
       titleTopYs: [],
       getTitleTopYs: null,
-      currentIndex: 0
+      currentIndex: 0,
+      isAddCart: false
     }
   },
   created() {
@@ -192,6 +198,8 @@ export default {
       // 2.将商品添加到购物车
       // this.$store.commit('addCart', product);
       this.$store.dispatch('addCart', product);
+      this.isAddCart = true;
+      setTimeout(() => this.isAddCart = false, 1000);
     }
   }
 }
@@ -213,6 +221,13 @@ export default {
   overflow: hidden;
   background-color: #fff;
   height: calc(100% - 44px - 49px);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 
 </style>

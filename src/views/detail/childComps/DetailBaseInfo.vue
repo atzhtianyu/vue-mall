@@ -1,6 +1,6 @@
 <template>
   <div v-if="Object.keys(goods).length !== 0" class="base-info">
-    <div class="info-title">{{ goods.title }}</div>
+    <div class="item-title">{{ goods.title }}</div>
     <div class="info-price">
       <span class="n-price">{{ goods.newPrice }}</span>
       <span class="o-price">{{ goods.oldPrice }}</span>
@@ -45,7 +45,7 @@ export default {
   border-bottom: 5px solid #f2f5f8;
 }
 
-.info-title {
+.item-title {
   color: #222;
 }
 
