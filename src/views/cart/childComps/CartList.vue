@@ -37,7 +37,7 @@ export default {
 .content {
   position: absolute;
   top: 44px;
-  bottom: 49px;
+  bottom: 89px;
   overflow: hidden;
   width: 100%;
 }

@@ -23,6 +23,11 @@ export default {
   border: 1px solid #aaa;
 }
 
+.check-button img {
+  margin-left: 1px;
+  margin-top: 1px;
+}
+
 .checked {
   background-color: var(--color-high-text);
   border-color: var(--color-high-text);

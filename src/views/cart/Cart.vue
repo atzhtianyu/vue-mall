@@ -7,11 +7,13 @@
     <!--商品列表-->
     <cart-list></cart-list>
     <!--底部汇总-->
+    <cart-bottom-bar></cart-bottom-bar>
   </div>
 </template>
 
 <script>
 import CartList from "@/views/cart/childComps/CartList";
+import CartBottomBar from "@/views/cart/childComps/CartBottomBar";
 
 import NavBar from "@/components/common/navbar/NavBar";
 
@@ -21,7 +23,8 @@ export default {
   name: "Cart",
   components: {
     NavBar,
-    CartList
+    CartList,
+    CartBottomBar
   },
   computed: {
     // 使用对象展开运算符将 getter 混入 computed 对象中
