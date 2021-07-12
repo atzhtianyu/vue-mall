@@ -86,6 +86,7 @@ export default {
     this.getHomeGoods(SELL);
   },
   mounted() {
+    this.$refs.scroll.refresh();
   },
   destroyed() {
     console.log('home destroyed');

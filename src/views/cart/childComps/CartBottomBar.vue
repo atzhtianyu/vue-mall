@@ -1,11 +1,11 @@
 <template>
   <div class="bottom-bar">
     <div class="select-all">
-      <check-button class="check-button"></check-button>
+      <check-button class="check-button" :is-checked="isSelectAll" @click.native="selectAll"></check-button>
       <span>全选</span>
     </div>
     <div class="totalPrice">
-      合计: <span class="price">￥{{ totalPrice }}</span>
+      合计: <span class="price">{{ totalPrice }}</span>
     </div>
     <div class="calculate">
       去计算({{ checkLength }})
@@ -24,7 +24,7 @@ export default {
   computed: {
     ...mapGetters(['cartList']),
     totalPrice() {
-      return this.cartList.filter(item => {
+      return "￥" + this.cartList.filter(item => {
         return item.checked;
       }).reduce((preValue, item) => {
         return preValue + item.price * item.count;
@@ -32,6 +32,36 @@ export default {
     },
     checkLength() {
       return this.cartList.filter(item => item.checked).length;
+    },
+    isSelectAll() {
+      if (this.cartList.length === 0) return false;
+
+      // 1.使用filter
+      // return !(this.cartList.filter(item => !item.checked).length);
+
+      // 2.使用find
+      return !this.cartList.find(item => !item.checked);
+
+      // 3.使用迭代
+      // this.cartList.forEach(item => {
+      //   if (!item.checked) {
+      //     return false;
+      //   }
+      // });
+      // return true;
+    }
+  },
+  methods: {
+    selectAll() {
+      if (!this.isSelectAll) {
+        this.cartList.forEach(item => {
+          item.checked = true;
+        })
+      } else {
+        this.cartList.forEach(item => {
+          item.checked = false;
+        })
+      }
     }
   }
 }
