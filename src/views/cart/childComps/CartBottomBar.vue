@@ -1,7 +1,11 @@
 <template>
   <div class="bottom-bar">
     <div class="select-all">
-      <check-button class="check-button" :is-checked="isSelectAll" @click.native="selectAll"></check-button>
+      <check-button
+        class="check-button"
+        :is-checked="isSelectAll"
+        @click.native="selectAll">
+      </check-button>
       <span>全选</span>
     </div>
     <div class="totalPrice">
@@ -56,11 +60,11 @@ export default {
       if (!this.isSelectAll) {
         this.cartList.forEach(item => {
           item.checked = true;
-        })
+        });
       } else {
         this.cartList.forEach(item => {
           item.checked = false;
-        })
+        });
       }
     }
   }

@@ -14,9 +14,6 @@
       <detail-recommend-info ref="recommend" :recommend-list="recommendList"></detail-recommend-info>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
-    <transition name="fade">
-      <detail-cart-popup class="popup" v-show="isAddCart"></detail-cart-popup>
-    </transition>
     <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
   </div>
 </template>
@@ -31,7 +28,6 @@ import DetailParamInfo from "@/views/detail/childComps/DetailParamInfo";
 import DetailCommentInfo from "@/views/detail/childComps/DetailCommentInfo";
 import DetailRecommendInfo from "@/views/detail/childComps/DetailRecommendInfo";
 import DetailBottomBar from "@/views/detail/childComps/DetailBottomBar";
-import DetailCartPopup from "@/views/detail/childComps/DetailCartPopup";
 
 import Scroll from "@/components/common/scroll/Scroll";
 
@@ -39,6 +35,8 @@ import {getDetail, getRecommend, Goods, Shop, GoodsPram} from "@/network/detail"
 import {backTopMixin, itemListenerMixin} from "@/common/mixin";
 import {debounce} from "@/common/utils";
 import {BACKTOP_DISTANCE} from "@/common/const";
+
+import {mapActions} from "vuex";
 
 export default {
   name: "Detail",
@@ -52,7 +50,6 @@ export default {
     DetailCommentInfo,
     DetailRecommendInfo,
     DetailBottomBar,
-    DetailCartPopup,
     Scroll
   },
   mixins: [itemListenerMixin, backTopMixin],
@@ -68,8 +65,7 @@ export default {
       recommendList: [],
       titleTopYs: [],
       getTitleTopYs: null,
-      currentIndex: 0,
-      isAddCart: false
+      currentIndex: 0
     }
   },
   created() {
@@ -134,7 +130,7 @@ export default {
       this.titleTopYs.push(this.$refs.recommend.$el.offsetTop);
       this.titleTopYs.push(Number.MAX_VALUE);
 
-      console.log(this.titleTopYs);
+      // console.log(this.titleTopYs);
     }, 200);
   },
   mounted() {
@@ -143,8 +139,12 @@ export default {
     this.$bus.$off('itemImageLoad', this.itemImageListener);
   },
   methods: {
+    // 导入vuex的Actions
+    ...mapActions({
+      "addCart": "addCart"
+    }),
     detailImageLoad() {
-      this.refresh
+      this.refresh();
       this.getTitleTopYs();
     },
     titleClick(index) {
@@ -179,7 +179,7 @@ export default {
       for (let i = 0; i < length - 1; i++) {
         if (this.currentIndex !== i && (positionY >= this.titleTopYs[i] && positionY < this.titleTopYs[i + 1])) {
           this.currentIndex = i;
-          console.log(this.currentIndex);
+          // console.log(this.currentIndex);
           this.$refs.navbar.currentIndex = this.currentIndex;
         }
       }
@@ -197,9 +197,12 @@ export default {
       product.iid = this.iid;
       // 2.将商品添加到购物车
       // this.$store.commit('addCart', product);
-      this.$store.dispatch('addCart', product);
-      this.isAddCart = true;
-      setTimeout(() => this.isAddCart = false, 1000);
+      // this.$store.dispatch('addCart', product).then(res => {
+      //   console.log(res);
+      // })
+      this.addCart(product).then(res => {
+        console.log(res);
+      });
     }
   }
 }
@@ -226,7 +229,9 @@ export default {
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
   opacity: 0;
 }
 
