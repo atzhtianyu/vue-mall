@@ -66,6 +66,11 @@ export default {
           item.checked = false;
         });
       }
+    },
+    calcClick() {
+      if (!this.cartList.find(item => item.checked)) {
+        this.$toast.show('请选择要购买的商品', 2000);
+      }
     }
   }
 }

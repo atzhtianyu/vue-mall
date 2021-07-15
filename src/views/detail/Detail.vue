@@ -14,6 +14,7 @@
       <detail-recommend-info ref="recommend" :recommend-list="recommendList"></detail-recommend-info>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
+    <!--<toast :message="message" :is-show="isShow"></toast>-->
     <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
   </div>
 </template>
@@ -38,6 +39,8 @@ import {BACKTOP_DISTANCE} from "@/common/const";
 
 import {mapActions} from "vuex";
 
+// import Toast from "@/components/common/toast";
+
 export default {
   name: "Detail",
   components: {
@@ -50,7 +53,8 @@ export default {
     DetailCommentInfo,
     DetailRecommendInfo,
     DetailBottomBar,
-    Scroll
+    Scroll,
+    // Toast
   },
   mixins: [itemListenerMixin, backTopMixin],
   data() {
@@ -65,7 +69,9 @@ export default {
       recommendList: [],
       titleTopYs: [],
       getTitleTopYs: null,
-      currentIndex: 0
+      // currentIndex: 0,
+      // message: "",
+      // isShow: false
     }
   },
   created() {
@@ -201,7 +207,14 @@ export default {
       //   console.log(res);
       // })
       this.addCart(product).then(res => {
-        console.log(res);
+        // this.message = res;
+        // this.isShow = true;
+        // setTimeout(() => {
+        //   this.isShow = false
+        // }, 1500);
+
+        this.$toast.show(res, 2000);
+
       });
     }
   }
@@ -224,15 +237,6 @@ export default {
   overflow: hidden;
   background-color: #fff;
   height: calc(100% - 44px - 49px);
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
-{
-  opacity: 0;
 }
 
 </style>
