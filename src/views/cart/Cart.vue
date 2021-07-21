@@ -41,7 +41,7 @@ export default {
 .cart-nav-bar {
   color: white;
   background-color: var(--color-tint);
-  font-size: 20px;
+  font-size: 16px;
   line-height: 44px;
 }
 

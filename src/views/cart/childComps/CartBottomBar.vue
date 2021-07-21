@@ -89,6 +89,7 @@ export default {
   line-height: 40px;
 
   background-color: #eee;
+  box-shadow: 0 -2px 3px rgba(0, 0, 0, .2);
 }
 
 .select-all {
@@ -119,7 +120,7 @@ export default {
 .calculate {
   margin-left: auto;
   width: 90px;
-  background-color: var(--color-tint);
+  background-color: orangered;
   text-align: center;
   color: #fff;
 }
