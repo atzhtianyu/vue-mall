@@ -9,7 +9,6 @@
 - [x] 轮播图
 - [x] 推荐信息
 - [x] 切换栏
-- [x]
 - [x] 商品列表
 
 #### 分类
@@ -38,13 +37,13 @@
 
 ### 具体界面
 
-<img src="/src/assets/img/readme/image-20210726171432031.png" alt="image-20210726171432031" style="zoom:50%;" />
+<img src="/src/assets/img/readme/image-20210726171432031.png" alt="image-20210726171432031" style="zoom:25%;" />
 
-<img src="/src/assets/img/readme/image-20210726171456357.png" alt="image-20210726171456357" style="zoom:50%;" />
+<img src="/src/assets/img/readme/image-20210726171456357.png" alt="image-20210726171456357" style="zoom:25%;" />
 
-<img src="/src/assets/img/readme/image-20210726171609616.png" alt="image-20210726171609616" style="zoom:50%;" />
+<img src="/src/assets/img/readme/image-20210726171609616.png" alt="image-20210726171609616" style="zoom:25%;" />
 
-<img src="/src/assets/img/readme/image-20210726171639614.png" alt="image-20210726171639614" style="zoom:50%;" />
+<img src="/src/assets/img/readme/image-20210726171639614.png" alt="image-20210726171639614" style="zoom:25%;" />
 
 ### 项目启动步骤
 

@@ -5,3 +5,22 @@ export function getCategory() {
     url: '/category'
   })
 }
+
+export function getSubCategory(maitKey) {
+  return request({
+    url: '/subcategory',
+    params: {
+      maitKey
+    }
+  })
+}
+
+export function getCategoryDetail(miniWallKey, type) {
+  return request({
+    url: '/subcategory/detail',
+    params: {
+      miniWallKey,
+      type
+    }
+  })
+}
