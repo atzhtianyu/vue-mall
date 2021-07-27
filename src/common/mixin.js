@@ -35,3 +35,14 @@ export const backTopMixin = {
     },
   }
 }
+
+export const tabControlMixin = {
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+
+  }
+}
