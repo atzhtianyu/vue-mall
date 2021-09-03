@@ -47,11 +47,17 @@
 
 ### 项目启动步骤
 
-1. 安装包   
-```npm install```
-2. 开发运行 
-```npm run serve```
-3. 生产打包 
-```npm run build```
+#### 安装包   
+```
+npm install
+```
+#### 开发运行   
+```
+npm run serve
+```
+#### 生产打包   
+```
+npm run build
+```
 
 ####
